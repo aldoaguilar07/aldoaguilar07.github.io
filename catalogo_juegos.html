@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Juegos</title>
+    <link rel="stylesheet" href="estilos.css"> <!-- Enlace al archivo CSS -->
+    <script>
+        function showForm(gameTitle) {
+            document.getElementById('catalog').style.display = 'none';
+            document.getElementById('form-container').style.display = 'block';
+            document.getElementById('form-title').innerText = gameTitle;
+        }
+
+        function goBack() {
+            document.getElementById('catalog').style.display = 'block';
+            document.getElementById('form-container').style.display = 'none';
+        }
+
+        function filterGames() {
+            var filter = document.getElementById('searchInput').value.toLowerCase();
+            var games = document.querySelectorAll('.game');
+
+            games.forEach(function(game) {
+                var title = game.querySelector('h2').textContent.toLowerCase();
+                var description = game.querySelector('p').textContent.toLowerCase();
+                if (title.includes(filter) || description.includes(filter)) {
+                    game.style.display = '';
+                } else {
+                    game.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var paymentMethodSelect = document.getElementById('payment-method');
+            paymentMethodSelect.addEventListener('change', function() {
+                var method = this.value;
+                var paymentDetails = document.querySelectorAll('.payment-details');
+                paymentDetails.forEach(function(detail) {
+                    detail.style.display = 'none';
+                });
+
+                if (method === 'credit-card') {
+                    document.getElementById('credit-card-details').style.display = 'block';
+                } else if (method === 'paypal') {
+                    document.getElementById('paypal-details').style.display = 'block';
+                } else if (method === 'bank-transfer') {
+                    document.getElementById('bank-transfer-details').style.display = 'block';
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h2>Catálogo de Juegos para Compra</h2>
+        </div>
+    </header>
+
+    <div id="catalog" class="container">
+        <input type="text" id="searchInput" placeholder="Buscar juego..." oninput="filterGames()">
+
+        <!-- Juegos se llenarán dinámicamente -->
+        <div class="game" onclick="showForm('Juego 1')">
+            <img src="resident_evil_4_remake-5789986.JPG" alt="Juego 1">
+            <div class="catalog-item">
+                <h2>Resident Evil 4 (REMAKE)</h2>
+                <p>Resident Evil 4 (REMAKE) Una ambiciosa puesta al día a nivel jugable y gráfico que nos devuelve a Leon S. Kennedy en su viaje a un récondito pueblo de España en su rescate de la hija del presidente de Estados Unidos.</p>
+            </div>
+        </div>
+
+        <div class="game" onclick="showForm('Juego 2')">
+            <img src="god-of-war-ragnarok-button-1631231879154.JPG" alt="Juego 2">
+            <div class="catalog-item">
+                <h2>God of War 'Ragnarok'</h2>
+                <p>God of War 'Ragnarök' está ambientado en el mundo de la mitología nórdica, pero amplía la narrativa del juego anterior, con un enfoque aún mayor en la exploración y el juego de mundo abierto.</p>
+            </div>
+        </div>
+
+        <div class="game" onclick="showForm('Juego 3')">
+            <img src="EGS_EASPORTSFC24StandardEdition_EACanada_S2_1200x1600-5ecbb77fd9c0601ef34c4a988120fc42.JPG" alt="Juego 3">
+            <div class="catalog-item">
+                <h2>EFC24</h2>
+                <p>Todo el mundo del fútbol está aquí, y tú también. Guía a tu país contra los mejores equipos y lucha por la gloria internacional.</p>
+            </div>
+        </div>
+
+        <a href="index.html">Ir al inicio</a>
+    </div>
+
+    <div id="form-container" class="form-container" style="display: none;">
+        <h2 id="form-title"></h2>
+        <form>
+            <h2>Datos requeridos para el pedido</h2>
+
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Teléfono:</label>
+            <input type="tel" id="phone" name="phone">
+
+            <label for="quantity">Cantidad:</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+
+            <label for="delivery">Solicitar delivery:</label>
+            <select id="delivery" name="delivery" required>
+                <option value="">Seleccione una opción</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select>
+
+            <label for="payment-method">Método de Pago:</label>
+            <select id="payment-method" name="payment-method" required>
+                <option value="">Seleccione un método</option>
+                <option value="sucursal">Retirar en el local</option>
+                <option value="credit-card">Tarjeta de Crédito</option>
+                <option value="paypal">PayPal</option>
+                <option value="bank-transfer">Transferencia Bancaria</option>
+            </select>
+
+            <div id="credit-card-details" class="payment-details">
+                <label for="card-number">Número de Tarjeta:</label>
+                <input type="text" id="card-number" name="card-number">
+
+                <label for="expiry-date">Fecha de Expiración:</label>
+                <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA">
+
+                <label for="cvv">Código de Seguridad (CVV):</label>
+                <input type="text" id="cvv" name="cvv">
+            </div>
+
+            <div id="paypal-details" class="payment-details">
+                <label for="paypal-email">Correo Electrónico de PayPal:</label>
+                <input type="email" id="paypal-email" name="paypal-email">
+            </div>
+
+            <div id="bank-transfer-details" class="payment-details">
+                <label for="bank-account">Número de Cuenta Bancaria:</label>
+                <input type="text" id="bank-account" name="bank-account">
+
+                <label for="bank-name">Nombre del Banco:</label>
+                <input type="text" id="bank-name" name="bank-name">
+
+                <label for="bank-routing">Número de Ruta Bancaria:</label>
+                <input type="text" id="bank-routing" name="bank-routing">
+            </div>
+
+            <button type="submit">Enviar Pedido</button>
+            <button type="button" onclick="goBack()">Volver al Catálogo</button>
+        </form>
+    </div>
+</body>
+</html>
